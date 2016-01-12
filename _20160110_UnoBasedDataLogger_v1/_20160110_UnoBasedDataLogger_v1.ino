@@ -55,16 +55,19 @@ void setup() {
   }
   Serial.println("card initialized.");
   
-  // You must already have a plain text file file named ‘datalog.txt’ on the SD already for this to work!//————-print a header to the data file———-
+  // You must already have a plain text file file named ‘datalog.txt’ on the SD already for this to work!
+  
+  //————-print a header to the data file———-
   File dataFile = SD.open("datalog.txt", FILE_WRITE);
   if (dataFile) { // if the file is available, write to it:
     dataFile.println("Timestamp, DS3231 Temp(F), ");
+    //I often print many extra lines of text in file headers, identifying details about the hardware being used, the code version that was running, etc
     dataFile.close();
   }
   else {
     Serial.println("error opening datalog.txt"); // if the file isn’t open, pop up an error:
   }
-  //I often print many extra lines of text in file headers, identifying details about the hardware being used, the code version that was running, etc.
+
   pinMode(RED_PIN, OUTPUT); //configure 3 RGB pins as outputs
   pinMode(GREEN_PIN, OUTPUT);
   pinMode(BLUE_PIN, OUTPUT);
@@ -79,12 +82,14 @@ void loop() {
   sprintf(CycleTimeStamp, " % 04d / % 02d / % 02d % 02d: % 02d", now.year(), now.month(), now.day(), now.hour(), now.minute());
   //loads the time into a string variable
   //don’t record seconds in the time stamp because
-  //the interrupt to time reading interval is <1s, so seconds are always ’00’// We set the clockInterrupt in the ISR, deal with that now:
+  //the interrupt to time reading interval is <1s, so seconds are always ’00’
+  
+  // We set the clockInterrupt in the ISR, deal with that now:
   if (clockInterrupt) {
     if (RTC.checkIfAlarm(1)) {       //Is the RTC alarm still on?
       RTC.turnOffAlarm(1);              //then turn it off.
     }
-    //print optional debugging message to the serial window if you wish
+    //print (optional) debugging message to the serial window if you wish
     //Serial.print("RTC Alarm on INT-0 triggered at ");
     //Serial.println(CycleTimeStamp);
     clockInterrupt = false;                //reset the interrupt flag to false
@@ -98,13 +103,12 @@ void loop() {
   if (Wire.available()) {
   tMSB = Wire.read();            //2’s complement int portion
   tLSB = Wire.read();             //fraction portion
-  temp3231 = ((((short)tMSB << 8) | (short)tLSB) >> 6) / 4.0;
-  // Allows for readings below freezing: thanks to Coding Badly
+  temp3231 = ((((short)tMSB << 8) | (short)tLSB) >> 6) / 4.0;  // Allows for readings below freezing: thanks to Coding Badly
   temp3231 = (temp3231 * 1.8) + 32.0; // To Convert Celcius to Fahrenheit
 }
 else {
   temp3231 = 0;
-  //if temp3231 contains zero, then you know you had a problem reading the data!
+  //if temp3231 contains zero, then you know you had a problem reading the data from the RTC!
 }
 Serial.print(". TEMPERATURE from RTC is: ");
 Serial.print(temp3231);
@@ -130,7 +134,9 @@ else {
   Serial.println("error opening datalog.txt"); // if the file isn’t open, pop up an error:
 }
 // delay(10000);
-// instead of using the delay we will use RTC interrupted sleeps//——– Set the next alarm time ————–
+// instead of using the delay we will use RTC interrupted sleeps
+
+//——– Set the next alarm time ————–
 Alarmhour = now.hour();
 Alarmminute = now.minute() + SampleIntervalMinutes;
 Alarmday = now.day();
@@ -161,7 +167,9 @@ delay(100); //this delay is only here so we can see the LED’s it is totally op
   digitalWrite(GREEN_PIN, LOW);
   digitalWrite(RED_PIN, HIGH);
   // Turn on red led as our indicator that the Arduino is sleeping.
-  // Note: Normally you would NOT leave an LED on like this during sleep! This is just so you can see what is going on..//——– sleep and wait for next RTC alarm ————–
+  // Note: Normally you would NOT leave an LED on like this during sleep! This is just so you can see what is going on..
+  
+  //——– sleep and wait for next RTC alarm ————–
   // Enable interrupt on pin2 & attach it to rtcISR function:
   attachInterrupt(0, rtcISR, LOW);
   // Enter power down state with ADC module disabled to save power:

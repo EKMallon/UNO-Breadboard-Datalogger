@@ -39,6 +39,15 @@ int GREEN_PIN = 5;
 int BLUE_PIN = 6; 
 
 void setup() {
+  
+  // Setting the SPI pins high helps some sd cards go into sleep mode 
+  // the following pullup resistors only need to be enabled for the stand alone logger builds - not the UNO loggers
+  pinMode(chipSelect, OUTPUT); digitalWrite(chipSelect, HIGH); //Always pullup the CS pin with the SD library
+  //and you may need to pullup MOSI/MISO
+  //pinMode(MOSIpin, OUTPUT); digitalWrite(MOSIpin, HIGH); //pullup the MOSI pin
+  //pinMode(MISOpin, INPUT); digitalWrite(MISOpin, HIGH);  //pullup the MISO pin
+  delay(1);
+  
   Serial.begin(9600);    // Open serial communications and wait for port to open:
   Wire.begin();          // start the i2c interface for the RTC
   RTC.begin();           // start the RTC

@@ -88,7 +88,7 @@ void setup() {
 void loop() {
   //—–This part reads the time and disables the RTC alarm
   DateTime now = RTC.now(); //this reads the time from the RTC
-  sprintf(CycleTimeStamp, "%04d/%02d/%02d %02d:%02d", now.year(), now.month(), now.day(), now.hour(), now.minute());
+  sprintf(CycleTimeStamp, "%04d/%02d/%02d,%02d:%02d", now.year(), now.month(), now.day(), now.hour(), now.minute());
   //loads the time into a string variable
   //don’t record seconds in the time stamp because
   //the interrupt to time reading interval is <1s, so seconds are always ’00’

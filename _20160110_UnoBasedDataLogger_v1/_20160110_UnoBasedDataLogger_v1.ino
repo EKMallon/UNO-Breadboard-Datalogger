@@ -66,16 +66,16 @@ void setup() {
   
   // You must already have a plain text file file named ‘datalog.txt’ on the SD already for this to work!
   
-  //————-print a header to the data file———-
-  File dataFile = SD.open("datalog.txt", FILE_WRITE);
-  if (dataFile) { // if the file is available, write to it:
-    dataFile.println("Timestamp, DS3231 Temp(F), ");
-    //I often print many extra lines of text in file headers, identifying details about the hardware being used, the code version that was running, etc
-    dataFile.close();
-  }
-  else {
-    Serial.println("error opening datalog.txt"); // if the file isn’t open, pop up an error:
-  }
+  //————-print a header to the data file———- OPTIONAL!
+  //File dataFile = SD.open("datalog.txt", FILE_WRITE);
+  //if (dataFile) { // if the file is available, write to it:
+  //  dataFile.println("Timestamp, DS3231 Temp(F), ");
+  //I often print many extra lines of text in file headers, identifying details about the hardware being used, the code version that was running, etc
+  //  dataFile.close();
+  //}
+  //else {
+  //   Serial.println("error opening datalog.txt"); // if the file isn’t open, pop up an error:
+  //}
 
   pinMode(RED_PIN, OUTPUT); //configure 3 RGB pins as outputs
   pinMode(GREEN_PIN, OUTPUT);
@@ -134,14 +134,22 @@ dataString += ", ";     //puts a comma between the two bits of data
 dataString = dataString + String(temp3231);
 
 //——– Now write the data to the SD card ——–
-File dataFile = SD.open("datalog.txt", FILE_WRITE);// if the file is available, write to it:
-if (dataFile) {
-  dataFile.println(dataString);
-  dataFile.close();
-}
-else {
-  Serial.println("error opening datalog.txt"); // if the file isn’t open, pop up an error:
-}
+// open the file. note that only one file can be open at a time,
+// so you have to close this one before opening another.
+  File dataFile = SD.open("datalog.txt", FILE_WRITE);
+
+  // if the file is available, write to it:
+  if (dataFile) {
+    dataFile.println(dataString);
+    dataFile.close();
+    // print to the serial port too:
+    Serial.println(dataString);
+  }
+  // if the file isn't open, pop up an error:
+  else {
+    Serial.println("error opening datalog.txt");
+  }
+  
 // delay(10000);
 // instead of using the delay we will use RTC interrupted sleeps
 

@@ -169,7 +169,7 @@ if (RTC.checkAlarmEnabled(1)) {
   Serial.print(" Going to sleep for : ");
   Serial.print(SampleIntervalMinutes);
   Serial.println(" minutes");
-  Serial.println();                                      //just adds a carriage return
+  Serial.println();Serial.flush();        //just adds a carriage return
 }
 delay(100); //this delay is only here so we can see the LED’s it is totally optional!
   //otherwise the entire loop would execute too fast for us to see it!

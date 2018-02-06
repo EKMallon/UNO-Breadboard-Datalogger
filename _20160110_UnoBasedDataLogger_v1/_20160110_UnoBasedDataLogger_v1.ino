@@ -131,7 +131,11 @@ Serial.println(" Fahrenheit");
 String dataString = ""; //this line simply erases the string
 dataString += CycleTimeStamp;
 dataString += ", ";     //puts a comma between the two bits of data
-dataString = dataString + String(temp3231);
+dataString = dataString + String(temp3231);  //this only gives you two decimal places
+//if you want more numbers after the decimal place replace the above line with
+//char buff[10];
+//dtostrf(rtc_TEMP_degC, 4, 4, buff);  //4 is mininum width, second number is #digits after the decimal
+//dataString = dataString + buff;
 
 //——– Now write the data to the SD card ——–
 // open the file. note that only one file can be open at a time,

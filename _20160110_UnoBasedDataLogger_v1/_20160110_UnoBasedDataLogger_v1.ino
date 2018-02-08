@@ -54,15 +54,15 @@ void setup() {
   while (!Serial) {
     ; // wait for serial port to connect. Needed for native USB port only
   }
-  Serial.print("Initializing SD card…");
+  Serial.print(F("Initializing SD card…"));
 // print lines in the setup loop only happen once
 // see if the card is present and can be initialized
   if (!SD.begin(chipSelect)) {
-    Serial.println("Card failed, or not present");
+    Serial.println(F("Card failed, or not present"));
     // don’t do anything more:
     return;
   }
-  Serial.println("card initialized.");
+  Serial.println(F("card initialized."));
   
   // You must already have a plain text file file named ‘datalog.txt’ on the SD already for this to work!
   
@@ -119,9 +119,9 @@ else {
   temp3231 = 0;
   //if temp3231 contains zero, then you know you had a problem reading the data from the RTC!
 }
-Serial.print(". TEMPERATURE from RTC is: ");
+Serial.print(F(". TEMPERATURE from RTC is: "));
 Serial.print(temp3231);
-Serial.println(" Fahrenheit");
+Serial.println(F(" Fahrenheit"));
 
 // You could read in other variables here …like the analog pins, etc,
 // and just add them to the dataString before you write it to the file
@@ -151,7 +151,7 @@ dataString = dataString + String(temp3231);  //this only gives you two decimal p
   }
   // if the file isn't open, pop up an error:
   else {
-    Serial.println("error opening datalog.txt");
+    Serial.println(F("error opening datalog.txt"));
   }
   
 // delay(10000);
@@ -177,10 +177,10 @@ RTC.turnOnAlarm(1);
 if (RTC.checkAlarmEnabled(1)) {
   //you would comment out most of this message printing
   //if your logger was actually being deployed in the field
-  Serial.print("RTC Alarm Enabled!");
-  Serial.print(" Going to sleep for : ");
+  Serial.print(F("RTC Alarm Enabled!"));
+  Serial.print(F(" Going to sleep for : "));
   Serial.print(SampleIntervalMinutes);
-  Serial.println(" minutes");
+  Serial.println(F(" minutes"));
   Serial.println();Serial.flush();        //just adds a carriage return
 }
 delay(100); //this delay is only here so we can see the LED’s it is totally optional!

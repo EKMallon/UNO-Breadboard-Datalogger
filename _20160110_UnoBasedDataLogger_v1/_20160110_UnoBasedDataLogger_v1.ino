@@ -28,6 +28,9 @@ char CycleTimeStamp[ ] = "0000/00/00,00:00"; //16 ascii characters (without seco
 volatile boolean clockInterrupt = false;  
 //this flag is set to true when the RTC interrupt handler is executed
 
+const char codebuild[] PROGMEM = __FILE__;  // loads the compiled source code directory & filename into a varaible
+const char header[] PROGMEM = "Timestamp,RTC temp, add more as needed"; //this gets written to datalog.txt in setup
+
 //variables for reading the DS3231 RTC temperature register
 float temp3231;
 byte tMSB = 0;
@@ -67,15 +70,15 @@ void setup() {
   // You must already have a plain text file file named ‘datalog.txt’ on the SD already for this to work!
   
   //————-print a header to the data file———- OPTIONAL!
-  //File dataFile = SD.open("datalog.txt", FILE_WRITE);
-  //if (dataFile) { // if the file is available, write to it:
-  //  dataFile.println("Timestamp, DS3231 Temp(F), ");
-  //I often print many extra lines of text in file headers, identifying details about the hardware being used, the code version that was running, etc
-  //  dataFile.close();
-  //}
-  //else {
-  //   Serial.println("error opening datalog.txt"); // if the file isn’t open, pop up an error:
-  //}
+  File dataFile = SD.open("datalog.txt", FILE_WRITE);
+  if (dataFile) { // if the file is available, write to it:
+    dataFile.println((__FlashStringHelper*)codebuild); // writes the entire path + filename to the start of the data file
+    dataFile.println((__FlashStringHelper*)header);
+    dataFile.close();
+  }
+  else {
+     Serial.println("error opening datalog.txt"); // if the file isn’t open, pop up an error:
+  }
 
   pinMode(RED_PIN, OUTPUT); //configure 3 RGB pins as outputs
   pinMode(GREEN_PIN, OUTPUT);

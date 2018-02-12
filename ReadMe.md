@@ -1,12 +1,26 @@
 <img src="https://github.com/EKMallon/The_Cave_Pearl_Project_CURRENT_codebuilds/blob/master/images/CavePearlProjectBanner_130x850px.jpg">
 
-# The_Cave_Pearl_Project_CURRENT_codebuilds
+This repository contains a basic data logger script for the  "Modules &amp; Jumper Wires" data logger described at  
 
-This repository contains current logger base code builds for the  "Modules &amp; Jumper Wires" data logger described in 
-
-**Cave Pearl Data Logger: A Flexible Arduino-Based Logging Platform for Long-Term Monitoring in Harsh Environments**
-Sensors 2018, 18(2), 530; http://www.mdpi.com/1424-8220/18/2/530  (open access journal / free PDF download)  and on the project's blog at  https://thecavepearlproject.org/ 
+**Arduino UNO Datalogger for Complete Beginners (ie: no soldering)**
+https://thecavepearlproject.org/2015/12/22/arduino-uno-based-data-logger-with-no-soldering/
 
 <img src="https://github.com/EKMallon/The_Cave_Pearl_Project_CURRENT_codebuilds/blob/master/images/20180210_CavePearlLogger_ProMiniVariant_1240pix.png">
 
-The overall data buffering/saving functions at the heart of the code have has been made generic by the use of
+
+In general you only have to do four things to add a new sensor to your logger :
+
+1) Download an #include the library that drives your sensor. This is usually provided by the sensor vendor (Adafruit, Sparkfun, etc) 
+2) Connect your sensor as appropriate. The easiest ones to work with are often I2C sensors, which should be connected in parallel with the RTC module (which is also an I2C device)
+3) Add commands to take a reading from that sensor and put it into a variable at the beginning of the main loop. This is usually means adding:   YourSensorReadingVariable=readsensor();   functions provided by the library
+4) In the middle of the code where the data is concatenated into the dataString add:
+
+dataString += ", "; //comma separates new data from that already in the string
+dataString = dataString + String(YourSensorReadingVariable);
+
+You will find an introduction to the different types of sensors that you can use with the UNO logger at:
+
+**Arduino Tutorial: Adding Sensors to Your Data Logger**
+https://thecavepearlproject.org/2017/12/17/adding-sensors-to-an-arduino-data-logger/
+
+Just make sure that your sensor can handle the UNO's 5V rail.

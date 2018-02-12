@@ -13,8 +13,11 @@ In general you only have to do four things to add a new sensor to your logger :
 3) Add commands to take a reading from that sensor and put it into a variable at the beginning of the main loop. This is usually means adding:   YourSensorReadingVariable=readsensor();   functions provided by the library
 4) In the middle of the code where the data is concatenated into the dataString add:
 
-dataString += ", "; //comma separates new data from that already in the string
-dataString = dataString + String(YourSensorReadingVariable);
+**dataString += ", ";** //comma separates new data from that already in the string
+
+**dataString = dataString + String(YourSensorReadingVariable);**
+
+The code then saves aall the ascii characters in dataString to the SD card. 
 
 You will find an introduction to the different types of sensors that you can use with the UNO logger at:
 

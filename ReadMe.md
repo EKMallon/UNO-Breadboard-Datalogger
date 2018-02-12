@@ -5,7 +5,7 @@ This repository contains a basic data logger script for the  "Modules &amp; Jump
 **Arduino UNO Datalogger for Complete Beginners (ie: no soldering)**
 https://thecavepearlproject.org/2015/12/22/arduino-uno-based-data-logger-with-no-soldering/
 
-<img src="https://github.com/EKMallon/The_Cave_Pearl_Project_CURRENT_codebuilds/blob/master/images/20180210_CavePearlLogger_ProMiniVariant_1240pix.png">
+<img src="https://github.com/EKMallon/The_Cave_Pearl_Project_CURRENT_codebuilds/blob/master/images/UNObreadboard_600pix.jpg">
 
 
 In general you only have to do four things to add a new sensor to your logger :
@@ -23,4 +23,4 @@ You will find an introduction to the different types of sensors that you can use
 **Arduino Tutorial: Adding Sensors to Your Data Logger**
 https://thecavepearlproject.org/2017/12/17/adding-sensors-to-an-arduino-data-logger/
 
-Just make sure that your sensor can handle the UNO's 5V rail.
+Just make sure that the sensor you want to use can handle the UNO's 5V rail.

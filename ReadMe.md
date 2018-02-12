@@ -1,8 +1,6 @@
 <img src="https://github.com/EKMallon/The_Cave_Pearl_Project_CURRENT_codebuilds/blob/master/images/CavePearlProjectBanner_130x850px.jpg">
 
-This repository contains a basic data logger script for the  "Modules &amp; Jumper Wires" data logger described at  
-
-**Arduino UNO Datalogger for Complete Beginners (ie: no soldering)**
+This repository contains a basic data logger script that will run on **BOTH** Pro-Mini based "Modules &amp; Jumper Wires" loggers, **AND** the UNO based logger described in the **Arduino UNO Datalogger for Complete Beginners** post at:
 https://thecavepearlproject.org/2015/12/22/arduino-uno-based-data-logger-with-no-soldering/
 
 <img src="https://github.com/EKMallon/The_Cave_Pearl_Project_CURRENT_codebuilds/blob/master/images/UNObreadboard_600pix.jpg">

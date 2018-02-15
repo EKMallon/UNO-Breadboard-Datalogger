@@ -17,7 +17,7 @@ In general you only have to do four things to add a new sensor to this logger ba
 
 **dataString = dataString + String(YourSensorReadingVariable);**
 
-The code then saves all the ascii characters in dataString to the SD card automatically. Saving data to the SD card at every cycle uses less than 600mAs/day, while a logger that sleeps at 0.25 mA uses ~21,000 mAs during sleep. So you should still see at least 80% of the logger operating lifespan you'd get from the more complicated code. (ie:> 8 months on a full set of AA batteries)
+The code then saves all the ascii characters in dataString to the SD card automatically. 
 
 You will find an introduction to the different types of sensors that you can use with the UNO logger at:
 

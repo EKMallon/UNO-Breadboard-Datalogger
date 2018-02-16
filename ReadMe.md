@@ -25,3 +25,6 @@ You will find an introduction to the different types of sensors that you can use
 https://thecavepearlproject.org/2017/12/17/adding-sensors-to-an-arduino-data-logger/
 
 If you are using the UNO, check that the sensor you want to use can handle the UNO's 5V positive rail.
+
+**Also note:** that I have a directory of little utility scripts that come in very handy when testing your Arduino based data loggers at:
+https://github.com/EKMallon/Utilities

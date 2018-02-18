@@ -44,9 +44,9 @@ int BLUE_PIN = 6;
 void setup() {
   
   // Setting the SPI pins high helps some sd cards go into sleep mode 
-  // the following pullup resistors only need to be enabled for the stand alone logger builds - not the UNO loggers
+  // the following pullup resistors only needs to be enabled for the ProMini builds - not the UNO loggers
   pinMode(chipSelect, OUTPUT); digitalWrite(chipSelect, HIGH); //Always pullup the CS pin with the SD library
-  //and you may need to pullup MOSI/MISO
+  //and you may need to pullup MOSI/MISO, usually MOSIpin=11, and MISOpin=12
   //pinMode(MOSIpin, OUTPUT); digitalWrite(MOSIpin, HIGH); //pullup the MOSI pin
   //pinMode(MISOpin, INPUT); digitalWrite(MISOpin, HIGH);  //pullup the MISO pin
   delay(1);

@@ -10,12 +10,12 @@ In general you only have to do four things to add a new sensor to this logger ba
 
 1) Download an #include the library that drives your sensor. This is usually provided by the sensor vendor (Adafruit, Sparkfun, etc) 
 2) Connect your sensor as appropriate. The easiest ones to work with are often I2C sensors, which should be connected in parallel with the RTC module (since is also an I2C device)
-3) Add commands to take a reading from that sensor and put it into a variable at the beginning of the main loop. This is usually means adding:  YourSensorReadingVariable=readsensor();  with the functions provided by the library
+3) Add commands to take a reading from that sensor and put it into a variable at the beginning of the main loop. This is usually means adding:  YourSensorVariable=readsensor();  with the functions provided by the library
 4) In the middle of the code where the data is concatenated into the dataString add:
 
-**dataString += ", ";** //comma separates new data from that already in the string
+**dataString = dataString + ",";** //comma separates new data from that already in the string
 
-**dataString = dataString + String(YourSensorReadingVariable);**
+**dataString = dataString + String(YourSensorVariable);**
 
 The code then saves all the ascii characters in dataString to the SD card automatically. 
 

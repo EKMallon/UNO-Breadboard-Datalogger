@@ -17,7 +17,7 @@ In general you only have to do four things to add a new sensor to this logger ba
 
 **dataString = dataString + String(YourSensorVariable);**
 
-The code then saves all the ascii characters in dataString to the SD card automatically. The code assumes you already have an text file that is 8.3 named: datalog.txt on the SD card waiting for that data save. Make this empty file with any generic text editor.
+The code then saves all the ascii characters in dataString to the SD card as CSV text. The code assumes you already have an empty file that is 8.3 named "datalog.txt" on the SD card waiting for that data save. Make this empty file with any generic text editor. To retrive your data, unplug the battery, and then exchange the SD card with a new one. Then import the CSV files into any spreadsheet like Excel, Google sheets, or Open Office. 
 
 You will find an introduction to the different types of sensors that you can use with the UNO logger at:
 

@@ -198,7 +198,7 @@ if (RTC.checkAlarmEnabled(1)) {
   digitalWrite(RED_PIN, HIGH);  // Turn on red led as our indicator that the Arduino is sleeping. Remove this before deployment.
   //——– sleep and wait for next RTC alarm ————–
   // Enable interrupt on pin2 & attach it to rtcISR function:
-  attachInterrupt(0, rtcISR, FALLING);
+  attachInterrupt(0, rtcISR, LOW);
   // Enter power down state with ADC module disabled to save power:
   LowPower.powerDown(SLEEP_FOREVER, ADC_OFF, BOD_ON);
   //processor starts HERE AFTER THE RTC ALARM WAKES IT UP

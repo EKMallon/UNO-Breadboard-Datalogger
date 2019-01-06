@@ -43,7 +43,8 @@ int BLUE_PIN = 6;
 
 void setup() {
   
-  pinMode(RTC_INTERRUPT_PIN,INPUT_PULLUP);//RTC alarms low, so need pullup on the D2 line
+  pinMode(RTC_INTERRUPT_PIN,INPUT_PULLUP);//RTC alarms low, so need pullup on the D2 line 
+  //Note the above line is not needed if you have hardware pullups on SQW line, and many RTC modules do.
   
   // Setting the SPI pins high helps some sd cards go into sleep mode 
   // the following pullup resistors only needs to be enabled for the ProMini builds - not the UNO loggers

@@ -63,9 +63,6 @@ void setup() {
   //****************
   clearClockTrigger(); //stops RTC from holding the interrupt low if system reset just occured
   RTC.turnOffAlarm(1);
-  //i2c_writeRegBits(DS3231_ADDRESS,DS3231_STATUS_REG,0,Bit3_MASK); // disable the 32khz output  pg14-17 of datasheet  //This does not reduce the sleep current
-  //i2c_writeRegBits(DS3231_ADDRESS,DS3231_STATUS_REG,1,Bit4_MASK); // see APPLICATION NOTE 3644 - this might only work on the DS3234?
-  //i2c_writeRegBits(DS3231_ADDRESS,DS3231_STATUS_REG,1,Bit5_MASK); // setting bits 4&5 to 1, extends the time between RTC temp updates to 512seconds (from default of 64s)
   DateTime now = RTC.now();
   sprintf(CycleTimeStamp, "%04d/%02d/%02d %02d:%02d", now.year(), now.month(), now.day(), now.hour(), now.minute());
   while (!Serial) {

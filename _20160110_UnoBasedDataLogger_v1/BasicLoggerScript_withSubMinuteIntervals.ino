@@ -58,7 +58,12 @@ void setup() {
   
   Serial.begin(9600);    // Open serial communications and wait for port to open:
   Wire.begin();          // start the i2c interface for the RTC
-  RTC.begin();           // start the RTC
+  RTC.begin();           // start the RTC  
+  clearClockTrigger(); //stops RTC from holding the interrupt low if system reset just occured
+  RTC.turnOffAlarm(1);
+  DateTime now = RTC.now();
+  sprintf(CycleTimeStamp, "%04d/%02d/%02d %02d:%02d", now.year(), now.month(), now.day(), now.hour(), now.minute());
+  
   while (!Serial) {
     ; // wait for serial port to connect. Needed for native USB port only
   }
@@ -269,3 +274,18 @@ if (RTC.checkAlarmEnabled(1)) {
 void rtcISR() {
     clockInterrupt = true;
   }
+
+void clearClockTrigger()
+{
+  byte bytebuffer1=0;
+  Wire.beginTransmission(0x68);   //Tell devices on the bus we are talking to the DS3231
+  Wire.write(0x0F);               //Tell the device which address we want to read or write
+  Wire.endTransmission();         //Before you can write to and clear the alarm flag you have to read the flag first!
+  Wire.requestFrom(0x68,1);       //Read one byte
+  bytebuffer1=Wire.read();        //In this example we are not interest in actually using the bye
+  Wire.beginTransmission(0x68);   //Tell devices on the bus we are talking to the DS3231 
+  Wire.write(0x0F);               //status register
+  Wire.write(0b00000000);         //Write the byte.  The last 0 bit resets Alarm 1 //is it ok to just set these all to zeros?
+  Wire.endTransmission();
+  clockInterrupt=false;           //Finally clear the flag we use to indicate the trigger occurred
+}

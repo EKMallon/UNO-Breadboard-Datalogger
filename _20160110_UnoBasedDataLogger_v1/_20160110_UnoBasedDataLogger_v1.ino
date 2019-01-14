@@ -1,3 +1,4 @@
+
 /* A basic RTC triggered datalogger script. Note that I have replaced the
 analog pin reads in Tom’s Igoes starter code from //https://www.arduino.cc/en/Tutorial/Datalogger
 with DS3231 I2C register reading & the delay has been replaced with sleep & RTC interrupt alarms
@@ -57,6 +58,16 @@ void setup() {
   Serial.begin(9600);    // Open serial communications and wait for port to open:
   Wire.begin();          // start the i2c interface for the RTC
   RTC.begin();           // start the RTC
+
+  // check RTC Status
+  //****************
+  clearClockTrigger(); //stops RTC from holding the interrupt low if system reset just occured
+  RTC.turnOffAlarm(1);
+  //i2c_writeRegBits(DS3231_ADDRESS,DS3231_STATUS_REG,0,Bit3_MASK); // disable the 32khz output  pg14-17 of datasheet  //This does not reduce the sleep current
+  //i2c_writeRegBits(DS3231_ADDRESS,DS3231_STATUS_REG,1,Bit4_MASK); // see APPLICATION NOTE 3644 - this might only work on the DS3234?
+  //i2c_writeRegBits(DS3231_ADDRESS,DS3231_STATUS_REG,1,Bit5_MASK); // setting bits 4&5 to 1, extends the time between RTC temp updates to 512seconds (from default of 64s)
+  DateTime now = RTC.now();
+  sprintf(CycleTimeStamp, "%04d/%02d/%02d %02d:%02d", now.year(), now.month(), now.day(), now.hour(), now.minute());
   while (!Serial) {
     ; // wait for serial port to connect. Needed for native USB port only
   }
@@ -198,7 +209,7 @@ if (RTC.checkAlarmEnabled(1)) {
   delay(25); //this optional delay is only here so we can see the LED’s otherwise the entire loop executes so fast you might not see it.
   digitalWrite(GREEN_PIN, LOW);
   // Note: Normally you would NOT leave a red indicator LED on during sleep! This is just so you can see when your logger is sleeping, & when it's awake
-  digitalWrite(RED_PIN, HIGH);  // Turn on red led as our indicator that the Arduino is sleeping. Remove this before deployment.
+  //digitalWrite(RED_PIN, HIGH);  // Turn on red led as our indicator that the Arduino is sleeping. Remove this before deployment.
   //——– sleep and wait for next RTC alarm ————–
   // Enable interrupt on pin2 & attach it to rtcISR function:
   attachInterrupt(0, rtcISR, LOW);
@@ -206,7 +217,7 @@ if (RTC.checkAlarmEnabled(1)) {
   LowPower.powerDown(SLEEP_FOREVER, ADC_OFF, BOD_ON);
   //processor starts HERE AFTER THE RTC ALARM WAKES IT UP
   detachInterrupt(0); // immediately disable the interrupt on waking
-  digitalWrite(RED_PIN, LOW);
+  //digitalWrite(RED_PIN, LOW);
   digitalWrite(GREEN_PIN, HIGH); //Interupt woke processor, turn on green led
 }
 //================ END of the MAIN LOOP ===============
@@ -215,3 +226,18 @@ if (RTC.checkAlarmEnabled(1)) {
 void rtcISR() {
     clockInterrupt = true;
   }
+
+void clearClockTrigger()
+{
+  byte bytebuffer1=0;
+  Wire.beginTransmission(0x68);   //Tell devices on the bus we are talking to the DS3231
+  Wire.write(0x0F);               //Tell the device which address we want to read or write
+  Wire.endTransmission();         //Before you can write to and clear the alarm flag you have to read the flag first!
+  Wire.requestFrom(0x68,1);       //Read one byte
+  bytebuffer1=Wire.read();        //In this example we are not interest in actually using the bye
+  Wire.beginTransmission(0x68);   //Tell devices on the bus we are talking to the DS3231 
+  Wire.write(0x0F);               //status register
+  Wire.write(0b00000000);         //Write the byte.  The last 0 bit resets Alarm 1 //is it ok to just set these all to zeros?
+  Wire.endTransmission();
+  clockInterrupt=false;           //Finally clear the flag we use to indicate the trigger occurred
+}

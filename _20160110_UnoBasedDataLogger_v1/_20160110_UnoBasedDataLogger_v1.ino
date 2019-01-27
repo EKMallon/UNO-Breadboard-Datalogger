@@ -224,7 +224,7 @@ void rtcISR() {
     clockInterrupt = true;
   }
 
-void clearClockTrigger()
+void clearClockTrigger()  // from  http://forum.arduino.cc/index.php?topic=109062.0
 {
   byte bytebuffer1=0;
   Wire.beginTransmission(0x68);   //Tell devices on the bus we are talking to the DS3231
